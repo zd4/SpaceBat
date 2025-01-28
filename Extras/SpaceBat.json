@@ -1,0 +1,191 @@
+{
+    "actions": [
+        {
+            "eol": "\n",
+            "icon": "GPS Signal",
+            "title": "Send over udp (not working)",
+            "txData": "55"
+        }
+    ],
+    "decoder": 1,
+    "frameEnd": "",
+    "frameParser": "\nconst myArray = [\"00\", \"00\", \"00\",\"g1\",\"g2\",\"g3\"];\nfunction parse(frame, separator) {\n\n   let pairs = frame.match(/.{1,2}/g) || [];\n\n   if(pairs[5]==\"ff\"){\t//Zoom-command\n\tif(pairs[4][0]==\"2\") myArray[2]=pairs[4][1];\n\telse if(pairs[4][0]==\"3\") myArray[2]=\"-\"+pairs[4][1];\n\telse myArray[2]=\"0\";\n\tmyArray[5]= (parseInt(myArray[2],10)*10).toString();\n\t}\n  else{\n\tif(pairs[6]==\"01\") myArray[0]=pairs[4];\n\telse if(pairs[6]==\"02\") myArray[0]=\"-\"+pairs[4];\t\n\telse myArray[0]=\"00\";\n\tif(pairs[7]==\"01\") myArray[1]=pairs[5];\n\telse if (pairs[7]==\"02\") myArray[1]=\"-\"+pairs[5];\n\telse myArray[1]=\"00\";\n\t//myArray[3]= (parseInt(myArray[0],10)*8).toString();\t\n\t//myArray[4]= (parseInt(myArray[1],10)*10).toString();\n\t\n\t// the following normalization is for the acc-visualization only.\n\t// note that the current implementation does not normalize P/T towards the camera\n\tpan=parseInt(myArray[0],10);\n\ttilt=parseInt(myArray[1],10);\n\tmagnitude=Math.sqrt(pan * pan + tilt * tilt);\n\tif (magnitude === 0) {\n\t\tmyArray[3]=\"0\";\n\t\tmyArray[4]=\"0\";\n\t}\n\telse{\n\t\tmyArray[3]=(pan*150/magnitude).toString();\n\t\tmyArray[4]=(tilt*150/magnitude).toString();}\n\t}\n  \n    return myArray;\n}\n",
+    "frameStart": "",
+    "groups": [
+        {
+            "datasets": [
+                {
+                    "alarm": 0,
+                    "fft": false,
+                    "fftSamples": 1024,
+                    "fftSamplingRate": 100,
+                    "graph": true,
+                    "index": 1,
+                    "led": false,
+                    "ledHigh": 1,
+                    "log": false,
+                    "max": 18,
+                    "min": -18,
+                    "title": "PAN",
+                    "units": "",
+                    "value": "--.--",
+                    "widget": ""
+                },
+                {
+                    "alarm": 0,
+                    "fft": false,
+                    "fftSamples": 1024,
+                    "fftSamplingRate": 100,
+                    "graph": true,
+                    "index": 2,
+                    "led": false,
+                    "ledHigh": 1,
+                    "log": false,
+                    "max": 14,
+                    "min": -14,
+                    "title": "TILT",
+                    "units": "",
+                    "value": "--.--",
+                    "widget": ""
+                },
+                {
+                    "alarm": 0,
+                    "fft": false,
+                    "fftSamples": 1024,
+                    "fftSamplingRate": 100,
+                    "graph": true,
+                    "index": 3,
+                    "led": false,
+                    "ledHigh": 1,
+                    "log": false,
+                    "max": 7,
+                    "min": -7,
+                    "title": "ZOOM",
+                    "units": "",
+                    "value": "--.--",
+                    "widget": ""
+                }
+            ],
+            "title": "PTZ",
+            "widget": "datagrid"
+        },
+        {
+            "datasets": [
+                {
+                    "alarm": 0,
+                    "fft": false,
+                    "fftSamples": 1024,
+                    "fftSamplingRate": 100,
+                    "graph": false,
+                    "index": 2,
+                    "led": false,
+                    "ledHigh": 1,
+                    "log": false,
+                    "max": 18,
+                    "min": -18,
+                    "title": "Gyro pitch",
+                    "units": "deg/s",
+                    "value": "--.--",
+                    "widget": "x"
+                },
+                {
+                    "alarm": 0,
+                    "fft": false,
+                    "fftSamples": 1024,
+                    "fftSamplingRate": 100,
+                    "graph": false,
+                    "index": 1,
+                    "led": false,
+                    "ledHigh": 1,
+                    "log": false,
+                    "max": 14,
+                    "min": -14,
+                    "title": "Gyro roll",
+                    "units": "deg/s",
+                    "value": "--.--",
+                    "widget": "y"
+                },
+                {
+                    "alarm": 0,
+                    "fft": false,
+                    "fftSamples": 1024,
+                    "fftSamplingRate": 100,
+                    "graph": false,
+                    "index": 3,
+                    "led": false,
+                    "ledHigh": 1,
+                    "log": false,
+                    "max": 7,
+                    "min": -7,
+                    "title": "Gyro Z",
+                    "units": "deg/s",
+                    "value": "--.--",
+                    "widget": "z"
+                }
+            ],
+            "title": "PTZ-View",
+            "widget": "gyro"
+        },
+        {
+            "datasets": [
+                {
+                    "alarm": 0,
+                    "fft": false,
+                    "fftSamples": 1024,
+                    "fftSamplingRate": 100,
+                    "graph": false,
+                    "index": 4,
+                    "led": false,
+                    "ledHigh": 1,
+                    "log": false,
+                    "max": 18,
+                    "min": -18,
+                    "title": "Pan",
+                    "units": "",
+                    "value": "--.--",
+                    "widget": "x"
+                },
+                {
+                    "alarm": 0,
+                    "fft": false,
+                    "fftSamples": 1024,
+                    "fftSamplingRate": 100,
+                    "graph": false,
+                    "index": 5,
+                    "led": false,
+                    "ledHigh": 1,
+                    "log": false,
+                    "max": 14,
+                    "min": -14,
+                    "title": "Tilt",
+                    "units": "",
+                    "value": "--.--",
+                    "widget": "y"
+                },
+                {
+                    "alarm": 0,
+                    "fft": false,
+                    "fftSamples": 1024,
+                    "fftSamplingRate": 100,
+                    "graph": false,
+                    "index": 6,
+                    "led": false,
+                    "ledHigh": 1,
+                    "log": false,
+                    "max": 7,
+                    "min": -7,
+                    "title": "?",
+                    "units": "",
+                    "value": "--.--",
+                    "widget": "z"
+                }
+            ],
+            "title": "Accelerometer",
+            "widget": "accelerometer"
+        }
+    ],
+    "mapTilerApiKey": "",
+    "separator": "",
+    "thunderforestApiKey": "",
+    "title": "SpaceBat"
+}
